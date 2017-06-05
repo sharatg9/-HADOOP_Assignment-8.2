@@ -1,0 +1,68 @@
+
+
+2) Tokenize
+A = LOAD '/project/pig/data_test.txt' as (line) ;
+B = foreach A generate TOKENIZE(line) as word;
+dump B;
+
+3) Sum
+
+A = LOAD '/project/pig/data_test.txt' USING PigStorage(',') ;
+B = group A by $1; 
+C = foreach B generate group, SUM(A.$2);
+dump C;
+
+
+4) Min
+
+A = LOAD '/project/pig/data_test.txt' USING PigStorage(',') ;
+B = group A by $1;
+C = foreach B generate group, MIN(A.$2);
+dump C;
+
+
+5) Max
+
+A = LOAD '/project/pig/data_test.txt' USING PigStorage(',') ;
+B = group A by $1;
+C = foreach B generate group, MAX(A.$2);
+
+
+6) Limit 
+
+
+A = LOAD '/project/pig/data_test.txt' USING PigStorage(',') ;
+B = group A by $1;
+C = limit B 2;
+
+7) Store
+
+A = LOAD '/project/pig/data_test.txt' USING PigStorage(',') ;
+B = filter A by $1 == 'iphone' ;
+store B INTO '/project/demo_store';
+
+8) Distinct
+
+A = LOAD '/project/pig/data_test.txt' USING PigStorage(',') ;
+B = foreach A generate $0;
+C = Distinct B;
+dump C;
+
+
+9) Flatten
+A = LOAD '/project/pig/data_test.txt' USING PigStorage(',') ;
+B = group A by $1;
+C = foreach B generate flatten(B.$1);
+dump C;
+
+10) IsEmpty
+A = LOAD '/project/pig/data_test.txt' USING PigStorage(',') ;
+B = group A by $0;
+C = filter B by IsEmpty (A) ;
+dump C;
+
+
+
+
+
+
